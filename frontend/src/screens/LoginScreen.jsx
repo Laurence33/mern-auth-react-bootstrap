@@ -6,6 +6,7 @@ import FormContainer from '../components/FormContainer';
 import { useLoginMutation } from '../slices/usersApiSlice';
 import { setCredentials } from '../slices/authSlice';
 import { toast } from 'react-toastify';
+import Loader from '../components/Loader';
 
 const LoginScreen = () => {
   const [email, setEmail] = useState('');
@@ -14,7 +15,7 @@ const LoginScreen = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const [login, { isLoading, error }] = useLoginMutation();
+  const [login, { isLoading }] = useLoginMutation();
 
   const { userInfo } = useSelector((state) => state.auth);
 
@@ -58,8 +59,13 @@ const LoginScreen = () => {
           ></Form.Control>
         </Form.Group>
 
-        <Button type="submit" variant="primary" className="mt-3">
-          Sign In
+        <Button
+          type="submit"
+          disabled={isLoading}
+          variant="primary"
+          className="mt-3"
+        >
+          {isLoading ? <Loader /> : 'Sign In'}
         </Button>
 
         <Row className="py-3">
